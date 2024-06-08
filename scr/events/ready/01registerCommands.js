@@ -22,13 +22,13 @@ module.exports = async (client) => {
             }
         }
 
-        // if(areCommandsDifferent(existingCommand, localCommand)){
-        //     await applicationCommands.edit(existingCommand.id,{
-        //         description,
-        //         options,
-        //     });
-        //     console.log(`Command "${name}" Edited.`);
-        // }
+        if(areCommandsDifferent(existingCommand, localCommand)){
+            await applicationCommands.edit(existingCommand.id,{
+                description,
+                options,
+            });
+            console.log(`Command "${name}" Edited.`);
+        }
         else {
             if(localCommand.deleted){
                 console.log(`Skipping registering command "${name}" as its's set to delete.`)

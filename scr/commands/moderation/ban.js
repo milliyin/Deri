@@ -1,4 +1,4 @@
-// const { ApplicationCommandOptionType, PermissionFlagsBits} = require('discord.js');
+const { ApplicationCommandOptionType, PermissionFlagsBits} = require('discord.js');
 
 module.exports = {
     deleted: true,
@@ -26,4 +26,4 @@ module.exports = {
     callback:( client, interaction ) => {
         interaction.reply(`ban..`);
     },
-}
+};
