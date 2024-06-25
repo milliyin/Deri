@@ -1,5 +1,4 @@
-- [x] [Design new landing page](https://github.com/octocat/octoproject/issues/4)
-- [ ] [Translate content into supported languages](https://github.com/octocat/octoproject/issues/11)
+# Deri (Discord.js Bot)
 
 ## Commands and Features
 
