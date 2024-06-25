@@ -4,14 +4,14 @@
 
 ### General Commands
 
-- [x] **help**: Displays a list of available commands.
-- [ ] **ping**: Checks the bot's latency.
+- [ ] **help**: Displays a list of available commands.
+- [x] **ping**: Checks the bot's latency.
 - [ ] **info**: Provides information about the bot.
 
 ### Moderation Commands
 
 - [ ] **kick**: Kicks a user from the server.
-- [ ] **ban**: Bans a user from the server.
+- [x] **ban**: Bans a user from the server.
 - [ ] **unban**: Unbans a user.
 - [ ] **mute**: Mutes a user.
 - [ ] **unmute**: Unmutes a user.
