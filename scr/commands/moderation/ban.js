@@ -1,7 +1,6 @@
 const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits} = require('discord.js');
 
 module.exports = {
-    deleted: true,
     name: 'ban',
     description: 'Ban a memeber from the server!',
     // devOnly: Boolean,
