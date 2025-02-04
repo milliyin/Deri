@@ -66,6 +66,7 @@ module.exports = {
         const categories = {
             administration: [],
             moderation: [],
+            utility: [],
             misc: [],
         };
 
@@ -104,7 +105,6 @@ module.exports = {
 
 // Helper functions
 function getCommandCategory(commandName) {
-    // You can add more mappings as needed
     const categoryMappings = {
         ban: 'moderation',
         kick: 'moderation',
@@ -112,6 +112,10 @@ function getCommandCategory(commandName) {
         reload: 'administration',
         help: 'misc',
         ping: 'misc',
+        userinfo: 'utility',
+        serverinfo: 'utility',
+        avatar: 'utility',
+        roleinfo: 'utility',
     };
 
     return categoryMappings[commandName] || 'misc';
@@ -122,6 +126,7 @@ function getCategoryEmoji(category) {
         administration: '⚙️',
         moderation: '🛡️',
         misc: '🎮',
+        utility: '🛠️',
     };
 
     return emojiMappings[category] || '📌';

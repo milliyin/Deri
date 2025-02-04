@@ -40,17 +40,19 @@ module.exports = {
                 );
             }
 
-            // Get the command category and full path
-            const commandCategories = ['moderation', 'misc', 'administration'];
-            let commandPath;
-            
-            for (const category of commandCategories) {
+            // Define possible category folders
+            const categories = ['administration', 'moderation', 'misc', 'utility'];
+            let commandPath = null;
+
+            // Search for the command file in each category
+            for (const category of categories) {
+                const possiblePath = path.join(__dirname, '..', category, `${commandName}.js`);
                 try {
-                    commandPath = path.join(__dirname, '..', category, `${commandName}.js`);
-                    require.resolve(commandPath);
-                    break; // If we found the file, break the loop
+                    require.resolve(possiblePath);
+                    commandPath = possiblePath;
+                    break;
                 } catch (e) {
-                    continue; // If file not found in this category, try next
+                    continue;
                 }
             }
 
@@ -60,7 +62,7 @@ module.exports = {
                 );
             }
 
-            // Delete command from cache and require it again
+            // Delete command from cache
             delete require.cache[require.resolve(commandPath)];
             
             try {
