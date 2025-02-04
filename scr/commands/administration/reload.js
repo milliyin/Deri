@@ -1,65 +1,100 @@
-const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits} = require('discord.js');
+const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
 const { testServer } = require('../../../config.json');
-const getApplicationCommands = require('../../utils/getApplicationCommands');
+const { loadCommands } = require('../../utils/getApplicationCommands');
 const getLocalCommands = require('../../utils/getLocalCommands');
+const path = require('path');
 
 module.exports = {
     deleted: false,
     name: 'reload',
-    description: 'reloading the bot commands',
+    description: 'Reloads a bot command',
     devOnly: true,
     testOnly: true,
     options: [
         {
-            name : 'command-name',
-            description: 'the command to reload',
+            name: 'command-name',
+            description: 'The command to reload',
             required: true,
             type: ApplicationCommandOptionType.String,
-        }  
-    ],
-    callback: async ( client, interaction ) => {
-        try{
-
-        const commandName = interaction.options.get('command-name').value.toLowerCase();
-        const localCommands = getLocalCommands();
-        const applicationCommands = await getApplicationCommands(client,testServer);
-        if(commandName == 'reload'){
-            return interaction.reply(`You can't this command!`);
         }
-        let existingCommand;
-        for(const localCommand of localCommands){
-            const { name, description, options } = localCommand;
-            if(name === commandName){
-                existingCommand = await applicationCommands.cache.find((cmd) => cmd.name === name);
-                await applicationCommands.edit(existingCommand.id, {
-                    description,
-                    options,
-                  });
+    ],
+    callback: async (client, interaction) => {
+        try {
+            await interaction.deferReply();
+            
+            const commandName = interaction.options.getString('command-name').toLowerCase();
+            
+            if (commandName === 'reload') {
+                return interaction.editReply('❌ You cannot reload the reload command!');
+            }
+
+            const localCommands = await getLocalCommands();
+            
+            const commandToReload = localCommands.find(
+                (cmd) => cmd.name.toLowerCase() === commandName
+            );
+
+            if (!commandToReload) {
+                return interaction.editReply(
+                    `❌ Could not find command \`${commandName}\`!`
+                );
+            }
+
+            // Get the command category and full path
+            const commandCategories = ['moderation', 'misc', 'administration'];
+            let commandPath;
+            
+            for (const category of commandCategories) {
+                try {
+                    commandPath = path.join(__dirname, '..', category, `${commandName}.js`);
+                    require.resolve(commandPath);
+                    break; // If we found the file, break the loop
+                } catch (e) {
+                    continue; // If file not found in this category, try next
+                }
+            }
+
+            if (!commandPath) {
+                return interaction.editReply(
+                    `❌ Could not find the file for command \`${commandName}\`!`
+                );
+            }
+
+            // Delete command from cache and require it again
+            delete require.cache[require.resolve(commandPath)];
+            
+            try {
+                const newCommand = require(commandPath);
+                
+                // Update application commands
+                const applicationCommands = await client.application.commands;
+                const existingCommand = await applicationCommands.cache.find(
+                    (cmd) => cmd.name === commandName
+                );
+
                 if (existingCommand) {
                     await applicationCommands.edit(existingCommand.id, {
-                      description,
-                      options,
+                        name: newCommand.name,
+                        description: newCommand.description,
+                        options: newCommand.options,
                     });
-                    console.log(`🔁 Reloaded command "${name}".`);
-                    return interaction.reply(`Reloaded Succefull!`);
-                  }
-                } else {
-                  if (localCommand.deleted) {
-                    await applicationCommands.delete(existingCommand.id);
-                    console.log(
-                      `⏩ While reloading, command "${name}" as it's set to delete.`
-                    );
-                    return interaction.reply(`While Reloading, command "${name}" as it's set to delete.`);
-                  }
-            }
-        }
-        if (!existingCommand) {
-			return interaction.reply(`There is no command with name \`${commandName}\`!`);
-		}
+                }
 
-        
-    }catch(error){
-        console.log(`Error Reloading: ${error}`);
-    }
+                await interaction.editReply(
+                    `✅ Successfully reloaded \`${commandName}\` command!`
+                );
+                console.log(`🔄 Reloaded command: ${commandName}`);
+            } catch (error) {
+                console.error(`Error reloading command ${commandName}:`, error);
+                return interaction.editReply(
+                    `❌ Error reloading \`${commandName}\`: ${error.message}`
+                );
+            }
+        } catch (error) {
+            console.error('Error in reload command:', error);
+            return interaction.editReply(
+                '❌ There was an error while reloading the command!'
+            );
+        }
     },
-}
+};
