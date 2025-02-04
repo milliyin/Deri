@@ -1,13 +1,12 @@
 const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits} = require('discord.js');
 
 module.exports = {
-    deleted: true,
     name: 'ban',
     description: 'Ban a memeber from the server!',
     // devOnly: Boolean,
     testOnly: true,
     
-     Options: [
+    options: [
         {
             name : 'target-user',
             description: 'the user to ban.',
@@ -34,7 +33,6 @@ module.exports = {
         const reason = interaction.options.get('reason')?.value || 'No reason provided';
         await interaction.deferReply();
         const targetUser = await interaction.guild.members.fetch(targetUserId);
-        if(!(interaction.member.id === interaction.guild.ownerId)){
             
         if(!targetUser){
             await interaction.editReply('User not found');
@@ -58,13 +56,11 @@ module.exports = {
             return;
         }
         //baning the user;
-    }
     try{
         await targetUser.ban({reason});
         await interaction.editReply(`Banned ${targetUser.user.tag} for ${reason}`)
     }catch(error){
         console.log(`Errror was there while banning: ${error}`);
-    }
-        
+    }   
     },
 };
