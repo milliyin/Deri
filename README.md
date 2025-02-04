@@ -4,7 +4,7 @@
 
 ### General Commands
 
-- [ ] **help**: Displays a list of available commands.
+- [x] **help**: Displays a list of available commands.
 - [x] **ping**: Checks the bot's latency.
 - [ ] **info**: Provides information about the bot.
 
@@ -12,7 +12,7 @@
 
 - [ ] **kick**: Kicks a user from the server.
 - [x] **ban**: Bans a user from the server.
-- [ ] **unban**: Unbans a user.
+- [x] **unban**: Unbans a user.
 - [ ] **mute**: Mutes a user.
 - [ ] **unmute**: Unmutes a user.
 - [ ] **warn**: Issues a warning to a user.
@@ -21,10 +21,10 @@
 
 ### Utility Commands
 
-- [ ] **userinfo**: Displays information about a user.
-- [ ] **serverinfo**: Displays information about the server.
-- [ ] **avatar**: Displays a user's avatar.
-- [ ] **roleinfo**: Provides information about a specific role.
+- [x] **userinfo**: Displays information about a user.
+- [x] **serverinfo**: Displays information about the server.
+- [x] **avatar**: Displays a user's avatar.
+- [x] **roleinfo**: Provides information about a specific role.
 
 ### Fun Commands
 
@@ -46,12 +46,13 @@
 ### Admin Commands
 
 - [ ] **announcement**: Sends an announcement to a specified channel.
+- [x] **reload**: Reloads a command.
 
 ## Features
 
 ### Core Features
 
-- [ ] **Command Handling**: Dynamically loads commands from separate files.
-- [ ] **Event Handling**: Dynamically loads events from separate files.
-- [ ] **Permissions**: Checks for user permissions before executing commands.
+- [x] **Command Handling**: Dynamically loads commands from separate files.
+- [x] **Event Handling**: Dynamically loads events from separate files.
+- [x] **Permissions**: Checks for user permissions before executing commands.
 - [ ] **Error Handling**: Graceful error handling for commands and events.
