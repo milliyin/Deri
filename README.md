@@ -6,6 +6,8 @@
 
 - [x] **help**: Displays a list of available commands.
 - [x] **ping**: Checks the bot's latency.
+- [x] **uptime**: Shows how long the bot has been running.
+- [x] **botstatus**: Shows detailed bot statistics and system information.
 - [ ] **info**: Provides information about the bot.
 
 ### Moderation Commands
@@ -13,11 +15,11 @@
 - [ ] **kick**: Kicks a user from the server.
 - [x] **ban**: Bans a user from the server.
 - [x] **unban**: Unbans a user.
+- [x] **clearmsg**: Clears specified number of messages from a channel.
 - [ ] **mute**: Mutes a user.
 - [ ] **unmute**: Unmutes a user.
 - [ ] **warn**: Issues a warning to a user.
 - [ ] **warnings**: Shows warnings for a user.
-- [ ] **clear**: Clears a specified number of messages from a channel.
 
 ### Utility Commands
 
@@ -30,7 +32,7 @@
 
 - [ ] **chat**: Have a conversation with AI.
 - [ ] **imagine**: Generate images from text descriptions.
-- [ ] **caption**: Generate captions for images.
+- [x] **caption**: Generate captions for images.
 - [ ] **analyze**: Analyze images and provide detailed descriptions.
 - [ ] **translate**: Translate text between languages using AI.
 - [ ] **summarize**: Summarize long texts or conversations.

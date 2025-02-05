@@ -116,6 +116,10 @@ function getCommandCategory(commandName) {
         serverinfo: 'utility',
         avatar: 'utility',
         roleinfo: 'utility',
+        caption: 'ai',
+        uptime: 'misc',
+        botstatus: 'misc',
+        clearmsg: 'moderation',
     };
 
     return categoryMappings[commandName] || 'misc';
@@ -127,6 +131,7 @@ function getCategoryEmoji(category) {
         moderation: '🛡️',
         misc: '🎮',
         utility: '🛠️',
+        ai: '🤖',
     };
 
     return emojiMappings[category] || '📌';
