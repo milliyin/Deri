@@ -117,6 +117,9 @@ function getCommandCategory(commandName) {
         avatar: 'utility',
         roleinfo: 'utility',
         caption: 'ai',
+        uptime: 'misc',
+        botstatus: 'misc',
+        clearmsg: 'moderation',
     };
 
     return categoryMappings[commandName] || 'misc';

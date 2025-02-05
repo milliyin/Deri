@@ -2,7 +2,7 @@ const {
     ApplicationCommandOptionType, 
     EmbedBuilder 
 } = require('discord.js');
-g
+
 module.exports = {
     name: 'caption',
     description: 'Generate a caption for an image using AI',
