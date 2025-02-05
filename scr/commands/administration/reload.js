@@ -41,7 +41,7 @@ module.exports = {
             }
 
             // Define possible category folders
-            const categories = ['administration', 'moderation', 'misc', 'utility'];
+            const categories = ['administration', 'moderation', 'misc', 'utility', 'ai'];
             let commandPath = null;
 
             // Search for the command file in each category
