@@ -2,6 +2,10 @@ const {
     ApplicationCommandOptionType, 
     EmbedBuilder 
 } = require('discord.js');
+const axios = require('axios');
+const FormData = require('form-data');
+
+const API_URL = process.env.CAPTION_API_URL || 'http://localhost:8000';
 
 module.exports = {
     name: 'caption',
@@ -14,26 +18,6 @@ module.exports = {
             description: 'The image to generate a caption for',
             type: ApplicationCommandOptionType.Attachment,
             required: true,
-        },
-        {
-            name: 'style',
-            description: 'The style of caption to generate',
-            type: ApplicationCommandOptionType.String,
-            required: false,
-            choices: [
-                {
-                    name: 'Detailed',
-                    value: 'detailed'
-                },
-                {
-                    name: 'Concise',
-                    value: 'concise'
-                },
-                {
-                    name: 'Creative',
-                    value: 'creative'
-                }
-            ]
         }
     ],
 
@@ -42,7 +26,6 @@ module.exports = {
 
         try {
             const image = interaction.options.getAttachment('image');
-            const style = interaction.options.getString('style') || 'detailed';
 
             // Validate if the attachment is an image
             if (!image.contentType?.startsWith('image/')) {
@@ -52,28 +35,73 @@ module.exports = {
                 });
             }
 
-            // TODO: Implement AI image captioning
-            // This is where you'd integrate with your AI service
-            // For now, we'll return a placeholder response
-            const caption = "A placeholder caption for the image. AI integration coming soon!";
+            // Create loading message
+            await interaction.editReply({
+                content: '🤖 Analyzing image and generating caption...',
+            });
 
-            const embed = new EmbedBuilder()
-                .setTitle('Image Caption')
-                .setColor('#00ff00')
-                .setDescription(`**Generated Caption:**\n${caption}`)
-                .setImage(image.url)
-                .setFooter({ 
-                    text: `Style: ${style.charAt(0).toUpperCase() + style.slice(1)} • Requested by ${interaction.user.tag}`,
-                    iconURL: interaction.user.displayAvatarURL({ dynamic: true })
-                })
-                .setTimestamp();
+            try {
+                // Download the image
+                const imageResponse = await axios.get(image.url, {
+                    responseType: 'arraybuffer',
+                    timeout: 5000 // 5 seconds timeout for download
+                });
 
-            await interaction.editReply({ embeds: [embed] });
+                // Prepare form data
+                const formData = new FormData();
+                formData.append('file', Buffer.from(imageResponse.data), {
+                    filename: image.name,
+                    contentType: image.contentType,
+                });
+
+                // Send request to the API
+                const response = await axios.post(`${API_URL}/generate-caption`, formData, {
+                    headers: {
+                        ...formData.getHeaders(),
+                    },
+                    timeout: 30000 // 30 seconds timeout for caption generation
+                });
+
+                if (response.data.status === 'success' && response.data.caption) {
+                    const embed = new EmbedBuilder()
+                        .setTitle('📸 Image Caption')
+                        .setColor('#00ff00')
+                        .setDescription([
+                            '**Generated Caption:**',
+                            response.data.caption
+                        ].join('\n'))
+                        .setImage(image.url)
+                        .setFooter({ 
+                            text: `Requested by ${interaction.user.tag}`,
+                            iconURL: interaction.user.displayAvatarURL({ dynamic: true })
+                        })
+                        .setTimestamp();
+
+                    await interaction.editReply({ 
+                        content: null,
+                        embeds: [embed] 
+                    });
+                } else {
+                    throw new Error('Invalid response from caption service');
+                }
+
+            } catch (error) {
+                if (error.code === 'ECONNREFUSED') {
+                    throw new Error('Caption service is not available. Please try again later.');
+                } else if (error.code === 'ETIMEDOUT') {
+                    throw new Error('Request timed out. Please try again with a smaller image.');
+                } else {
+                    throw error;
+                }
+            }
 
         } catch (error) {
             console.error('Error in caption command:', error);
+            
+            const errorMessage = error.response?.data?.message || error.message || 'An unknown error occurred';
+            
             await interaction.editReply({
-                content: '❌ There was an error processing your request.',
+                content: `❌ ${errorMessage}`,
                 ephemeral: true
             });
         }
