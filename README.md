@@ -44,14 +44,6 @@
 - [ ] **ocr**: Extract text from images.
 - [ ] **math**: Solve mathematical problems with step-by-step explanations.
 
-### Fun Commands
-
-- [ ] **joke**: Tells a random joke.
-- [ ] **meme**: Displays a random meme.
-- [ ] **8ball**: Provides an 8-ball style random answer.
-- [ ] **coinflip**: Flips a coin (heads or tails).
-- [ ] **roll**: Rolls a dice.
-
 ### Admin Commands
 
 - [ ] **announcement**: Sends an announcement to a specified channel.
