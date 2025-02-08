@@ -12,12 +12,12 @@
 
 ### Moderation Commands
 
-- [ ] **kick**: Kicks a user from the server.
+- [x] **kick**: Kicks a user from the server.
 - [x] **ban**: Bans a user from the server.
 - [x] **unban**: Unbans a user.
 - [x] **clearmsg**: Clears specified number of messages from a channel.
-- [ ] **mute**: Mutes a user.
-- [ ] **unmute**: Unmutes a user.
+- [x] **mute**: Mutes a user for a specified duration (1m, 1h, 1d).
+- [x] **unmute**: Unmutes a previously muted user.
 - [ ] **warn**: Issues a warning to a user.
 - [ ] **warnings**: Shows warnings for a user.
 
