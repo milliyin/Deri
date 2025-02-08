@@ -68,6 +68,7 @@ module.exports = {
             moderation: [],
             utility: [],
             misc: [],
+            ai: [],
         };
 
         // Sort commands into categories
