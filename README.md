@@ -52,15 +52,6 @@
 - [ ] **coinflip**: Flips a coin (heads or tails).
 - [ ] **roll**: Rolls a dice.
 
-### Music Commands
-
-- [ ] **play**: Plays a song from a URL or search query.
-- [ ] **skip**: Skips the current song.
-- [ ] **stop**: Stops the music and clears the queue.
-- [ ] **pause**: Pauses the current song.
-- [ ] **resume**: Resumes the paused song.
-- [ ] **queue**: Displays the current music queue.
-
 ### Admin Commands
 
 - [ ] **announcement**: Sends an announcement to a specified channel.
